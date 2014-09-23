@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="fill_parent"
+        android:layout_height="5dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="2dip" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/view1"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_check_siminfo"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="SIM卡" />
+
+        <EditText
+            android:id="@+id/sim_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="30dip"
+            android:layout_weight="1"
+            android:background="@drawable/textview_board"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="本机北斗卡号"
+            android:textSize="15dip" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/count_time"
+            android:layout_width="wrap_content"
+            android:layout_height="30dip"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2.5"
+            android:background="@drawable/textview_board"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="60秒计时"
+            android:textSize="15dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="2dp"
+        android:layout_toLeftOf="@+id/btn_contact"
+        android:background="@drawable/shape"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/input_sim_id_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收信人: " />
+
+        <EditText
+            android:id="@+id/input_sim_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="15"
+            android:hint="请输入北斗卡号"
+            android:inputType="number"
+            android:numeric="integer"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/linearLayout2"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="2dp"
+        android:text="联系人" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginTop="5dp"
+        android:text="当前输入：" />
+
+    <TextView
+        android:id="@+id/text_count_words"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_toRightOf="@+id/textView1"
+        android:text="0/120bit" />
+
+    <EditText
+        android:id="@+id/input_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="15dp"
+        android:layout_toLeftOf="@+id/btn_contact"
+        android:ems="20"
+        android:gravity="left|top"
+        android:inputType="textMultiLine"
+        android:minLines="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/button_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@+id/input_message"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/input_message"
+        android:text="发送" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_send"
+        android:layout_alignLeft="@+id/button_send"
+        android:layout_alignParentRight="true"
+        android:text="" />
+
+</RelativeLayout>

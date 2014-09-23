@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BDSendMSM</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+	<string name="bd_short_message">短报文</string>
+	<string name="bd_send_short_message">发送短报文</string>
+	<string name="bd_receive_short_message">接收短报文</string>
+	<string name="bd_sattle_single_stat">信号状态</string>
+	<string name="bd_send">发送</string>
+	<string name="bd_receive">接收</string>
+	<string name="bd_receive_box">收件箱</string>
+</resources>

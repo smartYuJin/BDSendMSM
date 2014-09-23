@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/text_single01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="一号星" />
+
+        <TextView
+            android:id="@+id/text_single02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="二号星" />
+
+        <TextView
+            android:id="@+id/text_single03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="三号星" />
+
+        <TextView
+            android:id="@+id/text_single04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="四号星" />
+
+        <TextView
+            android:id="@+id/text_single05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="五号星" />
+
+        <TextView
+            android:id="@+id/text_single06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="六号星" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="2dp"
+        android:background="#000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/view1"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/img_tag_satellite_0"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <View
+            android:layout_width="7dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/image_single01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/satellite_single" />
+
+        <View
+            android:layout_width="7dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/image_single02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/satellite_single" />
+
+        <View
+            android:layout_width="7dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/image_single03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/satellite_single" />
+
+        <View
+            android:layout_width="7dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/image_single04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/satellite_single" />
+
+        <View
+            android:layout_width="7dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/image_single05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/satellite_single" />
+
+        <View
+            android:layout_width="7dp"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/image_single06"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/satellite_single" />
+    </LinearLayout>
+
+</RelativeLayout>
