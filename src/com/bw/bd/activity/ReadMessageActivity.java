@@ -69,18 +69,16 @@ public class ReadMessageActivity extends Activity implements OnClickListener{
 				ShortMessage.TO_ID, ShortMessage.TO_NAME, ShortMessage.DATE};
 		Cursor mCursor = mContentResolver.query(BdsMessage.ShortMessage.getUri(), columns, null, null, null);
 		int total = mCursor.getCount();
-		if (mCursor.moveToNext()) {
+		int i=0;
+		while (mCursor.moveToNext()) {
 			MessageEntity[] mReceivedMessage = new MessageEntity[total];
-			for (int i = 0; i < mCursor.getCount(); i++) {
-				Log.i(TAG,"ShortMessage.FROM_ID: "+ mCursor.getInt(mCursor.getColumnIndex(ShortMessage.FROM_ID)));
-				Log.i(TAG,"ShortMessage.CONTENT: "+ mCursor.getString(mCursor.getColumnIndex(ShortMessage.CONTENT)));
-				mReceivedMessage[i] = new MessageEntity();
-				mReceivedMessage[i].SndAddre = mCursor.getInt(mCursor.getColumnIndex(ShortMessage.FROM_ID));
-				mReceivedMessage[i].Msg = mCursor.getString(mCursor.getColumnIndex(ShortMessage.CONTENT));
-				mReceivedMessage[i].date = mCursor.getString(mCursor.getColumnIndex(ShortMessage.DATE));
-				mReceivedMessage[i].isRead = mCursor.getInt(mCursor.getColumnIndex(ShortMessage.IS_READ));
-				mDataArrays.add(mReceivedMessage[i]);
-			}
+			mReceivedMessage[i] = new MessageEntity();
+			mReceivedMessage[i].SndAddre = mCursor.getInt(mCursor.getColumnIndex(ShortMessage.FROM_ID));
+			mReceivedMessage[i].Msg = mCursor.getString(mCursor.getColumnIndex(ShortMessage.CONTENT));
+			mReceivedMessage[i].date = mCursor.getString(mCursor.getColumnIndex(ShortMessage.DATE));
+			mReceivedMessage[i].isRead = mCursor.getInt(mCursor.getColumnIndex(ShortMessage.IS_READ));
+			mDataArrays.add(mReceivedMessage[i]);
+			i++;
 		}
 		Log.i(TAG, " mCursor.getCount(): " + mCursor.getCount());
 		Log.i(TAG, "mDataArrays.size: " + mDataArrays.size());

@@ -45,19 +45,10 @@ public class ListViewAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.i("yujin", "---getView---");
 		MessageEntity mReceivedMessage = mList.get(position);
-		//Log.i("yujin", "mReceivedMessage.Msg: " + mReceivedMessage.Msg);
-//		Log.i("yujin", "\n\n============================================");
-//		for(int i=0; i<mList.size(); i++) {
-//			MessageEntity nReceivedMessage = mList.get(i);
-//			Log.i("yujin", "nReceivedMessage.Msg: "+nReceivedMessage.Msg);
-//		}
-//		Log.i("yujin", "============================================\n\n");
-		H h = null;
-		Log.i("yujin", "convertView: " + convertView);
+		Holder h = null;
 		if(convertView == null){
-			h = new H();
+			h = new Holder();
 			convertView = LayoutInflater.from(mContext).inflate(R.layout.item, parent, false);
 			h.header = (ImageView) convertView.findViewById(R.id.image_header);
 			h.number = (TextView) convertView.findViewById(R.id.text_contacts);
@@ -65,7 +56,7 @@ public class ListViewAdapter extends BaseAdapter {
 			h.date = (TextView) convertView.findViewById(R.id.text_date);
 			convertView.setTag(h);
 		}else{
-			h = (H)convertView.getTag();
+			h = (Holder)convertView.getTag();
 		}
 		h.header.setBackgroundResource(R.drawable.ic_contact_picture);
 		h.number.setText(String.valueOf(mReceivedMessage.SndAddre));
@@ -73,7 +64,8 @@ public class ListViewAdapter extends BaseAdapter {
 		h.date.setText(mReceivedMessage.date);
 		return convertView;
 	}
-	class H{
+	
+	class Holder{
 		ImageView header;
 		TextView number;
 		TextView content;

@@ -45,6 +45,7 @@ public class SerialPortUtils {
      */
     public static char[] byteToChars(byte[] bytes) {
         Charset cs = Charset.forName("UTF-8");
+    	//Charset cs = Charset.forName("Unicode");
         ByteBuffer bb = ByteBuffer.allocate(bytes.length);
         bb.put(bytes);
         bb.flip();
@@ -92,7 +93,6 @@ public class SerialPortUtils {
         String created = (calendar.get(Calendar.MONTH)+1) + "月"//从0计算  
                 + calendar.get(Calendar.DAY_OF_MONTH) + "日"  
                 + calendar.get(Calendar.HOUR_OF_DAY) + "点";
-        Log.e(TAG, created);  
         return created;
     }
 }

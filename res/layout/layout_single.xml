@@ -79,67 +79,133 @@
             android:layout_width="7dp"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/image_single01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/satellite_single" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/satellite_single" />
+
+            <TextView
+                android:id="@+id/text_single01_semaphore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
 
         <View
             android:layout_width="7dp"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/image_single02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/satellite_single" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/satellite_single" />
+
+            <TextView
+                android:id="@+id/text_single02_semaphore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
 
         <View
             android:layout_width="7dp"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/image_single03"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/satellite_single" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/satellite_single" />
+
+            <TextView
+                android:id="@+id/text_single03_semaphore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
 
         <View
             android:layout_width="7dp"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/image_single04"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/satellite_single" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/satellite_single" />
+
+            <TextView
+                android:id="@+id/text_single04_semaphore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
 
         <View
             android:layout_width="7dp"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/image_single05"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/satellite_single" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/satellite_single" />
+
+            <TextView
+                android:id="@+id/text_single05_semaphore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
 
         <View
             android:layout_width="7dp"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <FrameLayout
             android:id="@+id/image_single06"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/satellite_single" />
+            android:layout_weight="1" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/satellite_single" />
+
+            <TextView
+                android:id="@+id/text_single06_semaphore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
     </LinearLayout>
 
 </RelativeLayout>

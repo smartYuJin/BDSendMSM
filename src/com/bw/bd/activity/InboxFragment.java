@@ -6,17 +6,21 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.support.v4.app.Fragment;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -27,19 +31,14 @@ import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bw.bd.provider.BdsDatabaseHelper;
 import com.bw.bd.provider.BdsMessage;
-import com.bw.bd.provider.BeiDouProvider;
 import com.bw.bd.provider.BdsMessage.ShortMessage;
 import com.bw.bd.send.R;
 import com.bw.bd.send.bean.BDConstants;
-import com.bw.bd.utils.SerialPortUtils;
 
 public class InboxFragment extends Fragment implements View.OnClickListener, Observer{
     public static final String TAG = InboxFragment.class.getSimpleName();
@@ -92,13 +91,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Obs
                 MessageEntity entity = mlistInfo.get(position);
                 int SndAddre = entity.getSndAddre(); 
                 String infoTitle = entity.getMsg();
-                //Toast显示测试  
-                Toast.makeText(mContext, "SndAddre ID:"+SndAddre, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent("com.bw.bd.read.message");
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("entity", entity);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
+                showReadActivity(entity);
             }  
         });  
         //长按菜单显示  
@@ -135,13 +128,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Obs
         }  
         return false;  
     }
-    
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.i(TAG, "---onAttach---");
-    }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,45 +149,34 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Obs
         return mView;
     }
     
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i(TAG, "---onStop---");
-    }
-    
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "---onDestroy---");
-    }
     int num = 0;
     @Override
     public void update(Observable observable, Object data) {
         Log.i(TAG, "---update---");
         Message msg = (Message)data;
-        //String str = (String)msg.obj;
-        String str = null;
-        if (num%2==0) {
-        	str = "$BDRev,type,"+ (num++) +",五王王一五顶替械肛花样百出";
-        } else {
-        	str = "$BDRev,type,"+ (num++) +",asdasd";
-        }
+        String str = (String)msg.obj;
+//        String str = null;
+//        if (num%2==0) {
+//        	str = "$BDRev,type,"+ (num++) +",五王王一五顶替械肛花样百出花样百出东奔西走花样百出肛三十分梆枯";
+//        } else {
+//        	str = "$BDRev,type,"+ (num++) +",asdasd";
+//        }
         Log.i(TAG, "str: " + str);
         Log.i(TAG, "msg.what: " + msg.what);
         String[] argsItems = str.split(",");
         for(int i = 0; i < argsItems.length; i++) {
             //Log.i(TAG, "argsItems["+ i +"]: " + argsItems[i]);
         }
-//        switch(msg.what) {
-//        case BDConstants.CONSTANT_BDSND:
-//        	Toast.makeText(mContext, "成功发送了短信: " + str, Toast.LENGTH_SHORT).show();
-//            break;
-//        case BDConstants.CONSTANT_BDREC:
+        switch(msg.what) {
+        case BDConstants.CONSTANT_BDSND:
+        	Toast.makeText(mContext, "成功发送了短信: " + str, Toast.LENGTH_SHORT).show();
+            break;
+        case BDConstants.CONSTANT_BDREC:
         	if (argsItems.length > 1) {
         		MessageEntity mReceivedMessage = new MessageEntity();
-        		mReceivedMessage.type = argsItems[1].replaceAll(" ", "");
-        		mReceivedMessage.SndAddre = Integer.valueOf(argsItems[2].replaceAll(" ", ""));
-        		mReceivedMessage.Msg = argsItems[3].replaceAll(" ", "");
+        		mReceivedMessage.type = argsItems[1].trim();
+        		mReceivedMessage.SndAddre = Integer.valueOf(argsItems[2].trim());
+        		mReceivedMessage.Msg = argsItems[3].trim();
         		mReceivedMessage.date = mReceivedMessage.getDate();
         		mReceivedMessage.isRead = 0;
         		ContentValues values = new ContentValues();
@@ -212,15 +188,18 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Obs
         		values.put(BdsMessage.ShortMessage.DATE, mReceivedMessage.date);
         		values.put(BdsMessage.ShortMessage.IS_READ, mReceivedMessage.isRead);
         		mContentResolver.insert(BdsMessage.ShortMessage.getUri(), values);
+        		showInNotificationBar(mReceivedMessage);
         	}
         	Toast.makeText(mContext, "成功接收到短信: " + str, Toast.LENGTH_SHORT).show();
-//            break;
-//        }
+        	Vibrator vib = (Vibrator) mContext.getSystemService(Service.VIBRATOR_SERVICE); 
+        	vib.vibrate(500);
+            break;
+            default:
+        }
     }
     
     @Override
     public void onClick(View v) {
-        Log.i(TAG, "---onClick---");
         
     }
     
@@ -230,7 +209,7 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Obs
         mContentResolver = mContext.getContentResolver();
         String[] columns = new String[] { ShortMessage._ID, ShortMessage.FROM_ID, ShortMessage.CONTENT, ShortMessage.IS_READ,
                 ShortMessage.DATE};
-        Cursor mCursor = mContentResolver.query(BdsMessage.ShortMessage.getUri(), null, null, null, null);
+        Cursor mCursor = mContentResolver.query(BdsMessage.ShortMessage.getUri(), columns, null, null, null);
         int total = mCursor.getCount();
         int i = 0;
 		while (mCursor.moveToNext()) {
@@ -250,5 +229,34 @@ public class InboxFragment extends Fragment implements View.OnClickListener, Obs
         mListView.requestLayout();
         mListViewAdapter.notifyDataSetChanged();
         textTotal.setText("总共: " + mlistInfo.size() + " 条信息");
+    }
+    
+    public void showInNotificationBar(MessageEntity mMessageEntity) {
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager mNotificationManager = (NotificationManager)mContext.getSystemService(ns);
+        int icon = R.drawable.icon;
+        CharSequence tickerText = mMessageEntity.Msg;
+        long when = System.currentTimeMillis();
+        Notification notification = new Notification(icon, tickerText, when);
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        notification.defaults = Notification.DEFAULT_SOUND;
+        notification.defaults = Notification.DEFAULT_LIGHTS;
+        CharSequence contentTitle = mMessageEntity.Msg;
+        CharSequence contentText = mMessageEntity.Msg;
+        Intent intent = new Intent("com.bw.bd.read.message");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("entity", mMessageEntity);
+        intent.putExtras(bundle);
+        PendingIntent pIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+        notification.setLatestEventInfo(mContext, contentTitle, contentText,pIntent);
+        mNotificationManager.notify(1, notification);
+    }
+
+    public void showReadActivity(MessageEntity mMessageEntity) {
+    	Intent intent = new Intent("com.bw.bd.read.message");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("entity", mMessageEntity);
+        intent.putExtras(bundle);
+        mContext.startActivity(intent);
     }
 }

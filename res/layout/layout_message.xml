@@ -33,7 +33,9 @@
             android:background="@drawable/textview_board"
             android:ems="10"
             android:gravity="center"
+            android:focusable="false"
             android:hint="本机北斗卡号"
+            android:enabled="false"
             android:textSize="15dip" >
         </EditText>
 
@@ -47,6 +49,7 @@
             android:background="@drawable/textview_board"
             android:ems="10"
             android:gravity="center"
+            android:focusable="false"
             android:hint="60秒计时"
             android:textSize="15dip" />
     </LinearLayout>
@@ -106,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textView1"
         android:layout_toRightOf="@+id/textView1"
-        android:text="0/120bit" />
+        android:text="0/72bit" />
 
     <EditText
         android:id="@+id/input_message"

@@ -43,7 +43,7 @@ public class MessageEntity implements Serializable {
         this.isRead = isRead;
     }
     public String getDate() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");  
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd-HH:mm:ss");  
         String date=format.format(new Date());  
         return date;
     }

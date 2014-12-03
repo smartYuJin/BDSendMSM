@@ -45,6 +45,7 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
     private static int time = 60;
     public static final int PICK_CONTACT = 0x100;
     private static OutputStream mOutputStream;
+    private SerialPortOption mSerialPortOption;
     
     private SendMessageFragment () {}
     
@@ -54,10 +55,11 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
     }
     
     
-    public SendMessageFragment(Context context, OutputStream outputStream) {
+    public SendMessageFragment(Context context, OutputStream outputStream, SerialPortOption serialPortOption) {
 //        mView = view;
         mContext = context;
         mOutputStream = outputStream;
+        mSerialPortOption = serialPortOption;
     }
     
     Handler mHandler = new Handler() {
@@ -106,6 +108,13 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
         sendButton.setOnClickListener(this);
         contactButton.setOnClickListener(this);
         checkSIMButton.setOnClickListener(this);
+        if (null != sendButton) {
+        	if (SerialPortOption.isEnableSend) {
+        		sendButton.setEnabled(true);
+        	} else {
+        		sendButton.setEnabled(false);
+        	}
+        }
     }
 
     @Override
@@ -113,6 +122,7 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
         super.onAttach(activity);
         Log.i(TAG, "---onAttach---");
     }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +134,6 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "---onCreateView---");
         mView = inflater.inflate(R.layout.layout_message, container, false);
-        
         return mView;
     }
     
@@ -162,8 +171,6 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
         switch(v.getId()) {
         case R.id.btn_check_siminfo:
             String cmdCheckSim = BDConstants.CMD_QUERY_SIM;
-            Log.i(TAG, "cmdCheckSim: " + cmdCheckSim);
-            Toast.makeText(mContext, "mOutputStream: " + mOutputStream, Toast.LENGTH_SHORT).show();
             SerialPortOption.sendCommand(mOutputStream, cmdCheckSim);
             break;
         case R.id.btn_contact:
@@ -177,7 +184,11 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
             int msgLength = 0; //send message content's length
             int simId = 0; //receiver id
             message = msgContentEditText.getText().toString();
-            msgLength = message.length();
+            //-------------------------------------
+            //msgLength = message.length();
+            byte[] bytes = message.getBytes();
+            msgLength = bytes.length;
+            //-------------------------------------
             if (!TextUtils.isEmpty(simIdEditText.getText().toString())) {
                 simId = Integer.valueOf(simIdEditText.getText().toString());
             } else {
@@ -201,6 +212,7 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
                 time.start();
             } else {
             	Toast.makeText(mContext, "发送失败，请检查串口", Toast.LENGTH_SHORT).show();
+            	mSerialPortOption.closeSerialPort();
             	sendButton.setEnabled(true);
             }
             break;
@@ -277,23 +289,25 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
         @Override
         public void run() {
             super.run();
-            while(!SerialPortOption.isEnableSend) {
-                try {
-                    Message msg = mHandler.obtainMessage();
-                    time--;
-                    msg.what = BDConstants.CONSTANT_COUNTTIME;
-                    msg.arg1 = time;
-                    mHandler.sendMessage(msg);
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+            synchronized (this) {
+				while (!SerialPortOption.isEnableSend) {
+					try {
+						Message msg = mHandler.obtainMessage();
+						time--;
+						msg.what = BDConstants.CONSTANT_COUNTTIME;
+						msg.arg1 = time;
+						mHandler.sendMessage(msg);
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
         }
         
     }
-    
+
     TextWatcher mTextWatcher = new TextWatcher() {  
         private CharSequence temp;
         private int editStart ;
@@ -317,15 +331,16 @@ public class SendMessageFragment extends Fragment implements View.OnClickListene
         	Log.i(TAG, "---afterTextChanged---");
             editStart = msgContentEditText.getSelectionStart();
             editEnd = msgContentEditText.getSelectionEnd();
-            //msgContentEditText.setText("您输入了" + temp.length() + "个字符");  
-            if (temp.length() > 30) {  
+            //msgContentEditText.setText("您输入了" + temp.length() + "个字符"); 
+            byte[] bytes = temp.toString().getBytes();
+            if (bytes.length > 72) {  
                 Toast.makeText(mContext,"你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
                 s.delete(editStart-1, editEnd);  
                 int tempSelection = editStart;  
                 msgContentEditText.setText(s);  
                 msgContentEditText.setSelection(tempSelection);  
             } else {
-            	inputWords.setText(temp.length() + "/120bit");//将输入的内容实时显示 
+            	inputWords.setText(bytes.length + "/72bit");//将输入的内容实时显示 
             }
         }
 
